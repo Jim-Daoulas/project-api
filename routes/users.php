@@ -12,6 +12,6 @@ Route::prefix('auth')->middleware("setAuthRole:2")->group(base_path('routes/auth
 Route::prefix("user")
     ->group(function() {
         Route::get("me", [UserController::class, 'me']);
-        Route::get("token", [UserController::class, 'token']);
+        Route::get("tokens", [UserController::class, 'tokens']);
         Route::delete("revoke-all-tokens", [UserController::class, 'revokeAllTokens']);
     });

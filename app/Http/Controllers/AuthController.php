@@ -101,7 +101,7 @@ class AuthController extends Controller
             }
         }
 
-        $token = $user->createToken('auth-token')->plainTextToken;
+        $token = $user->createToken(Device::tokenName())->plainTextToken;
 
         $response = [
             'success' => true,
