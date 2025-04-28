@@ -8,9 +8,26 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     public function me(Request $request)
-    {
-        return response()->json($request->user());
-    }
+{
+    // Log all tokens for debugging
+    \Log::debug('Token from header:', ['token' => $request->bearerToken()]);
+    
+    // Check which tokens exist in the database
+    $tokens = \Laravel\Sanctum\PersonalAccessToken::all();
+    \Log::debug('All tokens in db:', ['tokens' => $tokens->toArray()]);
+    
+    // Try to get the user
+    $user = $request->user();
+    \Log::debug('User after authentication:', ['user' => $user]);
+    
+    return response()->json([
+        'success' => true,
+        'message' => 'User retrieved',
+        'data' => [
+            'user' => $user
+        ]
+    ]);
+}
 
     public function tokens(Request $request)
     {

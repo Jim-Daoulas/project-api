@@ -10,6 +10,7 @@ Route::get('/', function () {
 Route::prefix('auth')->middleware("setAuthRole:2")->group(base_path('routes/auth.php'));
 
 Route::prefix("user")
+    ->middleware('auth:sanctum')
     ->group(function() {
         Route::get("me", [UserController::class, 'me']);
         Route::get("tokens", [UserController::class, 'tokens']);

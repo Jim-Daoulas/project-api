@@ -46,9 +46,24 @@ class AuthController extends Controller
         ]);
 
         if ($request->role) {
-            $role = Role::find(RoleCode::{$request->role});
-            if ($role) {
-                $user->roles()->attach($role->id);
+            $roleId = null;
+            
+            // Αν το role είναι αριθμός (από το middleware)
+            if (is_numeric($request->role)) {
+                $roleId = (int)$request->role;
+            }
+            // Αν το role είναι string (από manually request)
+            else if ($request->role === 'admin') {
+                $roleId = RoleCode::admin;
+            } else if ($request->role === 'user') {
+                $roleId = RoleCode::user;
+            }
+            
+            if ($roleId) {
+                $role = Role::find($roleId);
+                if ($role) {
+                    $user->roles()->attach($role->id);
+                }
             }
         }
 
@@ -92,12 +107,27 @@ class AuthController extends Controller
         }
 
         if ($request->role) {
-            $role = $user->roles()->where('role_id', RoleCode::{$request->role})->first();
-            if (!$role) {
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Unauthorized'
-                ], 401);
+            $roleId = null;
+            
+            // Αν το role είναι αριθμός (από το middleware)
+            if (is_numeric($request->role)) {
+                $roleId = (int)$request->role;
+            }
+            // Αν το role είναι string (από manually request)
+            else if ($request->role === 'admin') {
+                $roleId = RoleCode::admin;
+            } else if ($request->role === 'user') {
+                $roleId = RoleCode::user;
+            }
+            
+            if ($roleId) {
+                $role = $user->roles()->where('role_id', $roleId)->first();
+                if (!$role) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => 'Unauthorized'
+                    ], 401);
+                }
             }
         }
 

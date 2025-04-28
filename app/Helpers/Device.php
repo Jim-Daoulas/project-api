@@ -33,27 +33,28 @@ class Device
     }
 
     public static function tokenName()
-    {
-        $country = "Unknown Country";
-        $city = "Unknown City";
-        $lat = "Unknown Latitude";
-        $lon = "Unknown Longitude";
-        $timezone = "Unknown Timezone";
+{
+    $country = "Unknown Country";
+    $city = "Unknown City";
+    $lat = "Unknown Latitude";
+    $lon = "Unknown Longitude";
+    $timezone = "Unknown Timezone";
 
-        $deviceName = Device::name();
-        
-        // $ip = request()->ip();
-        $ip = "195.46.25.220";
+    // Use a simple device name instead of the full detection
+    $deviceName = request()->userAgent() ?? "Unknown Device"; 
+    
+    // $ip = request()->ip();
+    $ip = "195.46.25.220";
 
-        $res = Http::get("http://ip-api.com/json/$ip?fields=status,country,city,lat,lon,timezone");
-        if ($res->json()['status'] == 'success') {
-            $country = $res->json()['country'];
-            $city = $res->json()['city'];
-            $lat = $res->json()['lat'];
-            $lon = $res->json()['lon'];
-            $timezone = $res->json()['timezone'];
-        }
-        
-        return "$deviceName, $city $country, TZ:$timezone, POINT($lat, $lon)";
+    $res = Http::get("http://ip-api.com/json/$ip?fields=status,country,city,lat,lon,timezone");
+    if ($res->json()['status'] == 'success') {
+        $country = $res->json()['country'];
+        $city = $res->json()['city'];
+        $lat = $res->json()['lat'];
+        $lon = $res->json()['lon'];
+        $timezone = $res->json()['timezone'];
     }
+    
+    return "$deviceName, $city $country, TZ:$timezone, POINT($lat, $lon)";
+}
 }
