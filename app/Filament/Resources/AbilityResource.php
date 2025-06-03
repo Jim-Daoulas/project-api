@@ -10,6 +10,8 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
@@ -18,6 +20,7 @@ class AbilityResource extends Resource
     protected static ?string $model = Ability::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Champions';
 
     public static function form(Form $form): Form
     {
@@ -35,8 +38,8 @@ class AbilityResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->required()
                     ->columnSpanFull(),
-                Forms\Components\FileUpload::make('image_url')
-                    ->image(),
+                SpatieMediaLibraryFileUpload::make('ability')
+                    ->collection('abilities'),
                 Forms\Components\Textarea::make('details')
                     ->columnSpanFull(),
             ]);
@@ -53,7 +56,8 @@ class AbilityResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('key')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image_url'),
+                SpatieMediaLibraryImageColumn::make('ability')
+                    ->collection('abilities'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -64,7 +68,10 @@ class AbilityResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\SelectFilter::make('champion')
+        ->relationship('champion', 'name')
+        ->searchable()
+        ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

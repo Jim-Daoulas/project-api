@@ -22,8 +22,20 @@ class ReworkAbility extends Model
         'details' => 'array',
     ];
 
+    protected $appends = ['image_url'];
+
     public function rework(): BelongsTo
     {
         return $this->belongsTo(Rework::class);
+    }
+
+    // Override the image_url attribute to return media URL
+    public function getImageUrlAttribute()
+    {
+        // Get the media URL from the 'rework_abilities' collection
+        $mediaUrl = $this->getFirstMediaUrl('rework_abilities');
+        
+        // Return media URL if exists, otherwise return the original value
+        return $mediaUrl ?: $this->attributes['image_url'] ?? null;
     }
 }

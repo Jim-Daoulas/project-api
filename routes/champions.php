@@ -5,11 +5,9 @@ use App\Http\Controllers\ReworkController;
 use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return response()->json(['message' => 'champion']);
-});
+Route::get('/', [ChampionController::class, 'index']);
 
-Route::get('/list', [ChampionController::class, 'index']);
+Route::get('/champions', [ChampionController::class, 'index']);
 Route::get('/{champion}', [ChampionController::class, 'show']);
 Route::get('/role/{role}', [ChampionController::class, 'getChampionsByRole']);
 Route::get('/search', [ChampionController::class, 'search']);

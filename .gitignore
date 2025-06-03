@@ -21,3 +21,29 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+
+# Uploaded files (για την εφαρμογή σου)
+/public/uploads/*
+/public/images/champions/*
+!/public/images/champions/.gitkeep
+
+# Additional Laravel cache
+bootstrap/cache/*
+!bootstrap/cache/.gitkeep
+
+# Laravel Telescope (αν το χρησιμοποιήσεις)
+/storage/telescope
+
+# Backup files
+*.sql
+*.bak
+*.backup
+
+# Additional logs
+*.log
