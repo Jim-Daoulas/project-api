@@ -5,12 +5,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [
-        'http://localhost:5173',  // Vite dev server
-        'http://localhost:3000',  // Alternative dev server
-        'http://mki-project-api.test', // Local Laravel
-        'https://storied-salamander-061141.netlify.app',// Live Laravel
-    ],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [
         // Επιτρέπει όλα τα Netlify domains
