@@ -9,8 +9,7 @@ return [
         'http://localhost:5173',  // Vite dev server
         'http://localhost:3000',  // Alternative dev server
         'http://mki-project-api.test', // Local Laravel
-        // Αντικατέστησε με το πραγματικό Netlify domain σου
-        'https://your-netlify-site.netlify.app',
+        'https://storied-salamander-061141.netlify.app',// Live Laravel
     ],
 
     'allowed_origins_patterns' => [
